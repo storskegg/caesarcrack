@@ -7,17 +7,23 @@ import (
 	"strings"
 	"unicode"
 
-	cli "github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v2"
 )
 
 func Debug() bool {
 	return false
 }
 
-func parsePhrase(s string) (unsorted Words) {
-	unsorted = strings.Split(s, " ")
+func parsePhrase(s string) Words {
+	split := strings.Split(s, " ")
+	unsorted := make(Words, len(split))
+	for i, w := range split {
+		unsorted[i] = &Word{
+			Word: w,
+		}
+	}
 
-	return
+	return unsorted
 }
 
 func main() {
@@ -32,6 +38,10 @@ func main() {
 				Usage:    "ciphered file",
 				Required: true,
 			},
+			&cli.BoolFlag{
+				Name:  "color",
+				Usage: "colorful results",
+			},
 		},
 	}
 
@@ -43,7 +53,8 @@ func main() {
 
 func doit(c *cli.Context) error {
 	dict := make(Dictionary)
-	err := dict.LoadWithDictionary("./words_alpha.txt")
+	err := dict.Load()
+	//err := dict.LoadWithDictionary("./words_alpha.txt")
 	if err != nil {
 		return err
 	}
