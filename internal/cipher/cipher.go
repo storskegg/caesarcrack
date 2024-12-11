@@ -1,15 +1,13 @@
-package main
+package cipher
 
 import (
 	"strings"
 	"unicode"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 type Shift int
 
-func caesar(r rune, shift Shift) (shifted rune) {
+func Caesar(r rune, shift Shift) (shifted rune) {
 	if !unicode.IsLetter(r) {
 		return r
 	}
@@ -19,15 +17,6 @@ func caesar(r rune, shift Shift) (shifted rune) {
 	if unicode.IsUpper(r) {
 		wasUpper = true
 		r = unicode.ToLower(r)
-		if Debug() {
-			spew.Dump(struct {
-				R string
-				U bool
-			}{
-				R: string(r),
-				U: wasUpper,
-			})
-		}
 	}
 
 	s := Shift(r) + shift
@@ -46,8 +35,8 @@ func caesar(r rune, shift Shift) (shifted rune) {
 	return
 }
 
-func caesarShift(in string, shift Shift) string {
+func CaesarShift(in string, shift Shift) string {
 	return strings.Map(func(r rune) rune {
-		return caesar(r, shift)
+		return Caesar(r, shift)
 	}, in)
 }

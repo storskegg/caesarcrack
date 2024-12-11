@@ -2,7 +2,7 @@ EXE=caesarcrack
 
 default: all
 
-all: clean build deflate
+all: clean build
 
 clean:
 	[[ -d "./bin" ]]; rm -rf ./bin
