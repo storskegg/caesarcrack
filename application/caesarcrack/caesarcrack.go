@@ -20,7 +20,7 @@ var flagDictPath string
 const (
 	Version = "1.1.0"
 
-	defaultDictPath = "./words_alpha.txt"
+	defaultDictPath = ""
 )
 
 func init() {
@@ -45,10 +45,22 @@ func Execute() error {
 }
 
 func rootRunE(cmd *cobra.Command, args []string) error {
-	log.Printf("Loading dictionary from %s...", flagDictPath)
-	dict, err := dictionary.NewFromFile(flagDictPath)
-	if err != nil {
-		return err
+	var dict dictionary.Dictionary
+	var err error
+
+	switch flagDictPath {
+	case defaultDictPath:
+		log.Println("Loading internal dictionary...")
+		dict, err = dictionary.NewInternal()
+		if err != nil {
+			return err
+		}
+	default:
+		log.Printf("Loading dictionary from %s...", flagDictPath)
+		dict, err = dictionary.NewFromFile(flagDictPath)
+		if err != nil {
+			return err
+		}
 	}
 	log.Printf("Dictionary Loaded -- %d Words\n", dict.Length())
 

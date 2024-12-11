@@ -4,7 +4,7 @@ go 1.23.4
 
 require (
 	github.com/spf13/cobra v1.8.1
-	github.com/storskegg/autocorrect v1.0.0-alpha.1
+	github.com/storskegg/autocorrect v1.0.0-alpha.2
 )
 
 require (
