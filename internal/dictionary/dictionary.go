@@ -1,4 +1,4 @@
-package main
+package dictionary
 
 import (
 	"bufio"
@@ -21,11 +21,16 @@ func (d Dictionary) LoadWithDictionary(path string) error {
 	}
 	defer f.Close()
 	scanner := bufio.NewScanner(f)
+	scanner.Split(bufio.ScanWords)
 
 	n := 0
 	for scanner.Scan() {
-		n++
-		d[scanner.Text()] = struct{}{}
+		if word := scanner.Text(); word == "" {
+			continue
+		} else {
+			n++
+			d[word] = struct{}{}
+		}
 	}
 	log.Printf("Dictionary Loaded -- %d Words\n", n)
 	if err := scanner.Err(); err != nil {
