@@ -76,7 +76,7 @@ func doit(c *cli.Context) error {
 		var t, shifted string
 		found := false
 		for idx, word := range bf.CipherText {
-			shifted = caesarShift(word, shift)
+			shifted = caesarShift(word.String(), shift)
 			bf.Insert(shift, idx, shifted)
 			t = strings.ToLower(stripNonLetters(shifted))
 			found = dict.Has(t)
